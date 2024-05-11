@@ -179,16 +179,15 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         Cancel Edit
                       </button>
                     </div>
-                    <h1 className='text-4xl text-primary-content font-bold text-center py-12'>
+                    <h1 className='text-4xl  font-bold text-center py-12'>
                       Update Assignment
                     </h1>
                     <form onSubmit={handleFormSubmit}>
                       <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
                         <div>
                           <label
-                            className='text-gray-700 '
                             htmlFor='assignment_title'>
-                            Job Title
+                            Assignment Title
                           </label>
                           <input
                             id='assignment_title'
@@ -201,15 +200,14 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
 
                         <div className='flex flex-col gap-2 '>
                           <label
-                            className='text-gray-700 '
                             htmlFor='difficultyLevel'>
-                            difficultyLevel
+                            Assignment Difficulty Level
                           </label>
                           <select
                             name='difficultyLevel'
                             id='difficultyLevel'
                             defaultValue={difficultyLevel}
-                            className='border p-2 rounded-md'>
+                            className='border p-2 rounded-md bg-white text-gray-700'>
                             <option value={difficultyLevel}>
                               {difficultyLevel}
                             </option>
@@ -220,7 +218,6 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
                         <div>
                           <label
-                            className='text-gray-700 '
                             htmlFor='assignmentMark'>
                             Assignment Mark
                           </label>
@@ -235,7 +232,6 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
 
                         <div>
                           <label
-                            className='text-gray-700 '
                             htmlFor='thumbnailPhoto'>
                             Thumbnail Image Photo URL
                           </label>
@@ -244,15 +240,15 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                             defaultValue={thumbnailPhoto}
                             name='thumbnailPhoto'
                             type='url'
-                            className='block w-full px-4 py-2 placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                            className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
 
                         <div className='flex flex-col gap-2 '>
-                          <label className='text-gray-700'>Deadline</label>
+                          <label>Assignment Deadline</label>
 
                           <DatePicker
-                            className='border p-2 rounded-md w-full'
+                            className='border p-2 rounded-md w-full bg-white text-gray-700'
                             selected={startDate}
                             onChange={(date) => setStartDate(date)}
                           />
@@ -260,7 +256,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
 
                         <div>
                           <label
-                            className='text-gray-700 '
+                            
                             htmlFor='emailAddress'>
                             Assignment Creator Email Address
                           </label>
@@ -275,7 +271,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
                         <div>
                           <label
-                            className='text-gray-700 '
+                            
                             htmlFor='currentUserEmailAddress'>
                             Present User Email Address
                           </label>
@@ -290,7 +286,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
                       </div>
                       <div className='flex flex-col gap-2 mt-4'>
-                        <label className='text-gray-700 ' htmlFor='description'>
+                        <label  htmlFor='description'>
                           Description
                         </label>
                         <textarea
