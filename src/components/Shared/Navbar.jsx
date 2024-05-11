@@ -78,7 +78,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className='navbar  bg-base-200 rounded-2xl md:px-2 shadow-sm container lg:gap-16 justify-between mx-auto'>
+    <div className='navbar  bg-base-200 rounded-md md:rounded-2xl md:px-2 shadow-sm container lg:gap-16 justify-between mx-auto'>
       <div className='navbar-start'>
         <div className='dropdown'>
           <div
@@ -98,22 +98,12 @@ const Navbar = () => {
             tabIndex={0}
             //  dropdown-content
             className={` min-h-[91vh]
-                             absolute mt-5 left-0 z-[50] p-2 border-r-2 border-gray-200 lg:hidden
+                             absolute mt-5 -left-2 z-[50] p-2 border-r-2 border-gray-200 lg:hidden
              ${user ? "2xl:hidden" : "lg:hidden"}
                             ${open ? "" : "hidden"}
-                             bg-base-100   w-52`}>
+                             bg-base-200   w-52`}>
             {navLinks}
           </ul>
-          {/* <ul
-            tabIndex={0}
-            //  dropdown-content
-            className={`menu menu-sm
-                             absolute mt-5 z-[50] p-2 shadow 
-             ${user ? "2xl:hidden" : "lg:hidden"}
-                            ${open ? "" : "hidden"}
-                             bg-base-100 dark:bg-lime-100 rounded-b-xl w-52`}>
-            {navLinks}
-          </ul> */}
         </div>
         <Link to='/' className='flex gap-2 items-center'>
           <img className='w-auto h-7' src={logo} alt='logoComingSoon..' />
