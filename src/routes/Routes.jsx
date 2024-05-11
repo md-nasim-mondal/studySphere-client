@@ -41,6 +41,10 @@ const router = createBrowserRouter([
         path: '/my-attempted-assignments',
         element: <MyAttemptedAssignments/>,
       },
+      {
+        path: '/my-created-assignments',
+        element: <MyAttemptedAssignments/>,
+      },
     ]
   }
 ])
