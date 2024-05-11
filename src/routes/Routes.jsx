@@ -28,6 +28,7 @@ const router = createBrowserRouter([
       {
         path: '/assignments',
         element: <Assignments/>,
+        loader: () => fetch(`${import.meta.env.VITE_API_URL}/assignments`)
       },
       {
         path: '/createAssignments',

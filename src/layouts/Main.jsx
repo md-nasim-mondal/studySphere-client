@@ -4,11 +4,13 @@ import Navbar from "../components/Shared/Navbar";
 const Main = () => {
   return (
     <div>
-      {/* Navbar */}
+      <div className="container mx-auto">
+        {/* Navbar */}
       <Navbar/>
       {/* <h1 className="text-5xl">Main Home</h1> */}
       {/* Outlet */}
       <Outlet/>
+      </div>
 
       {/* Footer */}
     </div>

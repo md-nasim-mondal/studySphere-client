@@ -49,7 +49,7 @@ const CreateAssignments = () => {
     <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
       <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
         <h2 className='text-xl md:text-4xl font-semibold text-gray-700 capitalize text-center my-12 '>
-          Create A Assignment
+          Create A New Assignment
         </h2>
         <form onSubmit={handleFormSubmit}>
           <div className='grid grid-cols-1 gap-6 mt-4 md:grid-cols-2'>
