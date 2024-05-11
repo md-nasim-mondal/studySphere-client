@@ -34,11 +34,10 @@ const CreateAssignments = () => {
       bid_count: 0,
     };
     try {
-      const { data } = await axios.post(
+       await axios.post(
         `${import.meta.env.VITE_API_URL}/assignments`,
         assignmentData
       );
-      console.log(data);
       toast.success("Assignment Create Successfully!");
       navigate("/my-created-assignments");
     } catch (err) {

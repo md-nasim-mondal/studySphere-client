@@ -12,9 +12,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
-const Assignment = ({ assignment }) => {
-  const {user} = useAuth();
+const Assignment = ({ assignment, assignments, setAssignments }) => {
+  const { user } = useAuth();
   const navigate = useNavigate();
   const {
     _id,
@@ -37,13 +38,49 @@ const Assignment = ({ assignment }) => {
     setIsOpen(true);
   };
 
-  const handleEdit = () => {
-    if(!user){
-      return toast.error(`Please Login than Try Again !! You can't Edit Without Login!`)
-    }else if(user){
-      openModal()
+  const handleDelete = async (id) => {
+    const verified = (await assignmentCreator?.email) === user?.email;
+    if (!verified) {
+      return toast.error(
+        `You can't Delete this Assignment!! Only Creator Can Delete this Assignment!!`
+      );
+    } else if (verified) {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await axios.delete(
+              `${import.meta.env.VITE_API_URL}/assignment/${id}`
+            );
+            toast.success("Delete Successful");
+
+            // refresh the UI
+            const remaining = assignments.filter((assign) => assign._id !== id);
+            setAssignments(remaining);
+          } catch (err) {
+            toast.error(err.message);
+          }
+        }
+      });
     }
-  }
+  };
+
+  const handleEdit = () => {
+    if (!user) {
+      return toast.error(
+        `Please Login than Try Again !! You can't Edit Without Login!`
+      );
+    } else if (user) {
+      openModal();
+    }
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -62,27 +99,25 @@ const Assignment = ({ assignment }) => {
       thumbnailPhoto,
       description,
       assignmentCreator,
-      lastUpdatedUser:{
+      lastUpdatedUser: {
         email: user?.email,
         name: user?.displayName,
         photo: user?.photoURL,
-      }
+      },
     };
 
     try {
-      const { data } = await axios.put(
+      await axios.put(
         `${import.meta.env.VITE_API_URL}/assignment/${_id}`,
         jobData
       );
-      console.log(data);
       toast.success("Assignment Data Updated Successfully!");
-      navigate("/assignment");
+      closeModal();
+      navigate("/assignments");
     } catch (err) {
-      console.log(err);
       toast.error(err.message);
     }
   };
-
   return (
     <div>
       <div className='card bg-base-100 shadow-xl'>
@@ -100,12 +135,12 @@ const Assignment = ({ assignment }) => {
             <p className='text-end'>Difficulty Level: {difficultyLevel}</p>
           </div>
           <div className='card-actions justify-between w-full'>
-            <Link
-              onClick={handleEdit}
-              className='btn btn-warning flex-1'>
+            <Link onClick={handleEdit} className='btn btn-warning flex-1'>
               Edit
             </Link>
-            <Link to='' className='btn btn-error flex-1'>
+            <Link
+              onClick={() => handleDelete(_id)}
+              className='btn btn-error flex-1'>
               Delete
             </Link>
           </div>
@@ -137,7 +172,7 @@ const Assignment = ({ assignment }) => {
                 leave='ease-in duration-200'
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'>
-                <DialogPanel className='w-full max-w-7xl transform overflow-y-auto rounded-2xl bg-base-content p-6 text-left align-middle shadow-xl transition-all'>
+                <DialogPanel className='w-full max-w-7xl transform overflow-y-auto rounded-2xl bg-base-200 p-6 text-left align-middle shadow-xl transition-all'>
                   <div className='md:p-8'>
                     <div className='text-end'>
                       <button onClick={closeModal} className='btn'>
@@ -176,17 +211,11 @@ const Assignment = ({ assignment }) => {
                             defaultValue={difficultyLevel}
                             className='border p-2 rounded-md'>
                             <option value={difficultyLevel}>
-                             {difficultyLevel}
+                              {difficultyLevel}
                             </option>
-                            <option value='Easy'>
-                              Easy
-                            </option>
-                            <option value='Medium'>
-                              Medium
-                            </option>
-                            <option value='Hard'>
-                              Hard
-                            </option>
+                            <option value='Easy'>Easy</option>
+                            <option value='Medium'>Medium</option>
+                            <option value='Hard'>Hard</option>
                           </select>
                         </div>
                         <div>
@@ -205,18 +234,20 @@ const Assignment = ({ assignment }) => {
                         </div>
 
                         <div>
-                          <label className='text-gray-700 ' htmlFor='thumbnailPhoto'>
+                          <label
+                            className='text-gray-700 '
+                            htmlFor='thumbnailPhoto'>
                             Thumbnail Image Photo URL
                           </label>
                           <input
                             id='thumbnailPhoto'
                             defaultValue={thumbnailPhoto}
                             name='thumbnailPhoto'
-                            type='number'
-                            className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                            type='url'
+                            className='block w-full px-4 py-2 placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
-                        
+
                         <div className='flex flex-col gap-2 '>
                           <label className='text-gray-700'>Deadline</label>
 
@@ -267,7 +298,8 @@ const Assignment = ({ assignment }) => {
                           className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           name='description'
                           id='description'
-                          cols='30' rows='10'></textarea>
+                          cols='30'
+                          rows='10'></textarea>
                       </div>
                       <div className='flex justify-end mt-6'>
                         <button className='px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
@@ -288,6 +320,8 @@ const Assignment = ({ assignment }) => {
 
 Assignment.propTypes = {
   assignment: PropTypes.object,
+  assignments: PropTypes.array,
+  setAssignments: PropTypes.func,
 };
 
 export default Assignment;
