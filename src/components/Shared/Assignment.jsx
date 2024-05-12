@@ -15,7 +15,7 @@ import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 
 const Assignment = ({ assignment, assignments, setAssignments }) => {
-  const { user } = useAuth();
+  const { user } = useAuth() || {};
   const navigate = useNavigate();
   const {
     _id,
@@ -74,9 +74,10 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
 
   const handleEdit = () => {
     if (!user) {
-      return toast.error(
+      toast.error(
         `Please Login than Try Again !! You can't Edit Without Login!`
       );
+      return navigate('/login')
     } else if (user) {
       openModal();
     }
@@ -129,10 +130,20 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
           />
         </figure>
         <div className='card-body px-8 items-center'>
-          <h2 className='card-title'>{assignment_title}</h2>
+          <h2 className='card-title text-3xl'>{assignment_title}</h2>
           <div className='flex justify-between w-full'>
-            <p>Deadline: {new Date(deadline).toLocaleDateString()}</p>
-            <p className='text-end'>Difficulty Level: {difficultyLevel}</p>
+            <p className='font-semibold'>
+              Deadline:{" "}
+              <span className=' bg-red-200 px-1 text-red-500 rounded-lg'>
+                {new Date(deadline).toLocaleDateString()}
+              </span>
+            </p>
+            <p className='font-semibold text-end'>
+              Difficulty Level:{" "}
+              <span className='px-2 text-blue-800 uppercase bg-blue-200 rounded-full '>
+                {difficultyLevel}
+              </span>
+            </p>
           </div>
           <div className='card-actions justify-between w-full'>
             <Link onClick={handleEdit} className='btn btn-warning flex-1'>
@@ -175,7 +186,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                 <DialogPanel className='w-full max-w-7xl transform overflow-y-auto rounded-2xl bg-base-200 p-6 text-left align-middle shadow-xl transition-all'>
                   <div className='md:p-8'>
                     <div className='text-end'>
-                      <button onClick={closeModal} className='btn'>
+                      <button onClick={closeModal} className='btn bg-red-500 text-black'>
                         Cancel Edit
                       </button>
                     </div>
@@ -185,8 +196,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                     <form onSubmit={handleFormSubmit}>
                       <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
                         <div>
-                          <label
-                            htmlFor='assignment_title'>
+                          <label htmlFor='assignment_title'>
                             Assignment Title
                           </label>
                           <input
@@ -199,8 +209,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
 
                         <div className='flex flex-col gap-2 '>
-                          <label
-                            htmlFor='difficultyLevel'>
+                          <label htmlFor='difficultyLevel'>
                             Assignment Difficulty Level
                           </label>
                           <select
@@ -217,8 +226,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                           </select>
                         </div>
                         <div>
-                          <label
-                            htmlFor='assignmentMark'>
+                          <label htmlFor='assignmentMark'>
                             Assignment Mark
                           </label>
                           <input
@@ -231,8 +239,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
 
                         <div>
-                          <label
-                            htmlFor='thumbnailPhoto'>
+                          <label htmlFor='thumbnailPhoto'>
                             Thumbnail Image Photo URL
                           </label>
                           <input
@@ -255,9 +262,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
 
                         <div>
-                          <label
-                            
-                            htmlFor='emailAddress'>
+                          <label htmlFor='emailAddress'>
                             Assignment Creator Email Address
                           </label>
                           <input
@@ -270,9 +275,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                           />
                         </div>
                         <div>
-                          <label
-                            
-                            htmlFor='currentUserEmailAddress'>
+                          <label htmlFor='currentUserEmailAddress'>
                             Present User Email Address
                           </label>
                           <input
@@ -286,9 +289,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         </div>
                       </div>
                       <div className='flex flex-col gap-2 mt-4'>
-                        <label  htmlFor='description'>
-                          Description
-                        </label>
+                        <label htmlFor='description'>Description</label>
                         <textarea
                           defaultValue={description}
                           className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'

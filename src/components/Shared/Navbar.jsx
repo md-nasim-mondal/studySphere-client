@@ -6,7 +6,7 @@ import { IoClose, IoMenu } from "react-icons/io5";
 import { useEffect, useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, logOut } = useAuth();
+  const { user, logOut } = useAuth() || {};
   const [theme, setTheme] = useState(() => {
     const localTheme = localStorage.getItem("theme");
     return localTheme ? localTheme : "light";

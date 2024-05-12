@@ -8,7 +8,7 @@ import { FaGithub } from "react-icons/fa6";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, googleLogin, user, githubLogin } = useAuth();
+  const { signIn, googleLogin, user, githubLogin } = useAuth() || {};
   const [showPassword, setShowPassword] = useState(false);
   const from = location.state || "/";
 

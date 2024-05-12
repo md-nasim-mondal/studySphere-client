@@ -10,7 +10,7 @@ const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { googleLogin, githubLogin, setUser, createUser, updateUserProfile } =
-    useAuth();
+    useAuth() || {};
   const from = location.state || "/";
   const [showPassword, setShowPassword] = useState(false);
 

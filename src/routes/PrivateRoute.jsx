@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import useAuth from "../hooks/useAuth";
 
 const PrivateRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+    const { user, loading } = useAuth() || {};
     const location = useLocation();
     if (loading) {
         return (
