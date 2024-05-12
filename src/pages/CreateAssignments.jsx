@@ -33,7 +33,7 @@ const CreateAssignments = () => {
       },
     };
     try {
-       await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/assignments`,
         assignmentData
       );
@@ -44,7 +44,7 @@ const CreateAssignments = () => {
     }
   };
   return (
-    <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
+    <div className='flex justify-center items-center my-12'>
       <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
         <h2 className='text-xl md:text-4xl font-semibold text-gray-700 capitalize text-center my-12 '>
           Create A New Assignment

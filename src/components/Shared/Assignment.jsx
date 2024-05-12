@@ -121,21 +121,29 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
   };
   return (
     <div>
-      <div className='card bg-base-100 shadow-xl'>
-        <figure className='px-10 pt-10'>
+      <div className='card lg:flex-row items-center bg-base-100 shadow-xl px-4 py-6 gap-6 lg:gap-2'>
+        <div className="lg:w-[55%]">
+        <figure>
           <img
             src={thumbnailPhoto}
             alt='assignmentPhoto'
             className='rounded-xl'
           />
         </figure>
-        <div className='card-body px-8 items-center'>
-          <h2 className='card-title text-3xl'>{assignment_title}</h2>
+          <p className='font-semibold pt-4 text-sm'>
+                  Deadline:{" "}
+                  <span className=' bg-red-200 px-1 text-red-500 rounded-lg'>
+                    {new Date(deadline).toLocaleDateString()}
+                  </span>
+                </p>
+        </div>
+        <div className='card-body p-0 items-center'>
+          <h2 className='card-title'>{assignment_title}</h2>
           <div className='flex justify-between w-full'>
             <p className='font-semibold'>
-              Deadline:{" "}
-              <span className=' bg-red-200 px-1 text-red-500 rounded-lg'>
-                {new Date(deadline).toLocaleDateString()}
+             Assignment Mark:{" "}
+              <span className=' bg-green-200 px-1 text-green-600 rounded-lg'>
+                {assignmentMark}
               </span>
             </p>
             <p className='font-semibold text-end'>

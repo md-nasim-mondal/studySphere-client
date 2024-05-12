@@ -1,18 +1,24 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Shared/Navbar";
+import Footer from "../components/Shared/Footer";
 
 const Main = () => {
   return (
     <div>
-      <div className="container mx-auto">
+      <div className='container mx-auto'>
         {/* Navbar */}
-      <Navbar/>
-      {/* <h1 className="text-5xl">Main Home</h1> */}
-      {/* Outlet */}
-      <Outlet/>
+        <Navbar />
+        <div className=" min-h-[calc(100vh-325px)]">
+        {/* Outlet */}
+        <Outlet />
+        </div>
       </div>
-
       {/* Footer */}
+      <div className="bg-base-200">
+        <div className='container mx-auto'>
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 };
