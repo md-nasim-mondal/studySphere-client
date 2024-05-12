@@ -36,27 +36,35 @@ const PendingAssignments = () => {
     setIsOpen(true);
   };
 
-  const handleMarking = () => {
+  const handleMarking = async () => {
     openModal();
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    const matched =
+      (await user?.email) === markingAssignment?.examineeUser?.email;
+    if (matched) {
+      closeModal();
+      return toast.error(
+        "You gave this exam. So you cannot give mark for this assignment !! "
+      );
+    }
     const form = e.target;
-    const note = form.noteText.value;
-    const status = "Pending";
-    const assignmentId = _id;
-    const assignmentData = {
-      assignmentId,
-      assignment_title,
-      deadline,
-      difficultyLevel,
-      assignmentMark,
-      thumbnailPhoto,
-      description,
+    const feedback = form.feedback.value;
+    const obtainedMark = parseFloat(form.mark.value);
+    const status = "Completed";
+    const assignmentMark = markingAssignment?.assignmentMark;
+    if(obtainedMark > assignmentMark) {
+      return toast.error('Obtained Mark cannot be bigger than Assignment Mark!! ')
+    }else if (obtainedMark < 0 ) {
+      return toast.error('Obtained mark cannot be minus number!!!')
+    }
+    const assignmentUpdateData = {
+      feedback,
+      obtainedMark,
       status,
-      note,
-      assignmentCreator,
-      examineeUser: {
+      Examiner: {
         email: user?.email,
         name: user?.displayName,
         photo: user?.photoURL,
@@ -64,13 +72,15 @@ const PendingAssignments = () => {
     };
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/submitted-assignments`,
-        assignmentData
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/submitted-assignment/${
+          markingAssignment?._id
+        }`,
+        assignmentUpdateData
       );
-      toast.success("Assignment Attempted Successfully!");
+      toast.success("Assignment Checked Successfully With Mark!!");
       closeModal();
-      navigate("/my-attempted-assignments");
+      navigate("/pendingAssignments");
     } catch (err) {
       toast.error(err.message);
     }
@@ -78,77 +88,77 @@ const PendingAssignments = () => {
 
   return (
     <div className='mx-auto'>
-      <div className='min-h-[60vh] overflow-auto py-24'>
-        <table className='divide-y divide-gray-200 overflow-auto  border-2 min-h-[50vh]  border-gray-300 rounded-2xl mx-auto'>
+      <div className='min-h-[68.5vh] overflow-auto py-24'>
+        <table className='divide-x divide-y divide-gray-500 overflow-auto  border-2 border-gray-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>
             <tr>
               <th
                 scope='col'
-                className='py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='py-3.5 px-4 border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <div className='flex items-center gap-x-3'>
                   <span>Assignment Title</span>
                 </div>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <button className='flex items-center gap-x-2'>
                   <span className='w-28'>Assignment Mark</span>
                 </button>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <button className='flex items-center gap-x-2'>
                   <span>Examinee Name</span>
                 </button>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <button className='flex items-center gap-x-2'>
                   <span>Status</span>
                 </button>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <button className='flex items-center gap-x-2'>
                   <span>Assignment Details</span>
                 </button>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <span className='w-28'>Check & Give Mark</span>
               </th>
               <th
                 scope='col'
-                className='px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-base-content'>
+                className='px-4 py-3.5  border-r-2 border-gray-500  text-sm font-normal text-left rtl:text-right text-base-content'>
                 <span className='w-28'>Pdf/Doc file Link Preview</span>
               </th>
             </tr>
           </thead>
-          <tbody className='bg-base-200 divide-y divide-gray-200 '>
+          <tbody className='bg-base-200 divide-y divide-gray-500 '>
             {pendingAssignments?.map((assignment) => (
-              <tr key={assignment?._id}>
-                <td className='px-4 py-4 text-sm text-base-content  whitespace-nowrap'>
+              <tr key={assignment?._id} className='border-2 border-gray-500'>
+                <td className='px-4 py-4 border-r-2 border-gray-500 text-sm text-base-content  whitespace-nowrap'>
                   {assignment?.assignment_title}
                 </td>
 
-                <td className='px-4 py-4 text-sm text-base-content  whitespace-nowrap'>
+                <td className='px-4 py-4  border-r-2 border-gray-500  text-sm text-base-content  whitespace-nowrap'>
                   {assignment?.assignmentMark}
                 </td>
 
-                <td className='px-4 py-4 text-sm text-base-content  whitespace-nowrap'>
+                <td className='px-4 py-4 border-r-2 border-gray-500  text-sm text-base-content  whitespace-nowrap'>
                   {assignment?.examineeUser?.name}
                 </td>
-                <td className=' text-center py-4 text-sm whitespace-nowrap'>
+                <td className=' text-center py-4 px-3  border-r-2 border-gray-500  text-sm whitespace-nowrap'>
                   <span className=' bg-yellow-200 text-yellow-600 p-2 rounded-lg'>
                     {assignment?.status}
                   </span>
                 </td>
-                <td className='px-4 py-4 text-sm whitespace-nowrap'>
+                <td className='px-4 py-4 border-r-2 border-gray-500  text-sm whitespace-nowrap'>
                   <div className='flex items-center justify-center gap-x-6'>
                     <Link
                       to={`/assignment/${assignment?.assignmentId}`}
@@ -157,20 +167,20 @@ const PendingAssignments = () => {
                     </Link>
                   </div>
                 </td>
-                <td className='px-4 py-4 text-sm whitespace-nowrap'>
+                <td className='px-4 py-4  border-r-2 border-gray-500  text-sm whitespace-nowrap'>
                   <div className='flex items-center justify-center gap-x-6'>
                     <button
                       onClick={() => {
-                        handleMarking();
                         setMarkingAssignment(assignment);
+                        handleMarking();
                       }}
-                      className='text-base-content transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
+                      className='btn btn-accent  text-base-content transition-colors duration-200   hover:text-yellow-500 focus:outline-none'>
                       <FaMarker />
                     </button>
                   </div>
                 </td>
 
-                <td>
+                <td className="p-2">
                   <iframe
                     src={assignment?.pdfLink}
                     className='rounded-lg'></iframe>
@@ -257,24 +267,23 @@ const PendingAssignments = () => {
                             className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
-                        
+
                         <div>
                           <label htmlFor='mark'>Give Mark</label>
                           <input
                             id='mark'
                             name='mark'
                             type='number'
-                            placeholder="Give mark here"
+                            placeholder='Give mark here'
                             className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
-
                       </div>
                       <div className='flex flex-col gap-2 mt-4'>
                         <label htmlFor='feedback'>Feedback</label>
                         <textarea
                           required
-                          placeholder="Give Your Feedback Here...."
+                          placeholder='Give Your Feedback Here....'
                           className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           name='feedback'
                           id='feedback'

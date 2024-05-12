@@ -1,6 +1,6 @@
 const MyCreatedAssignments = () => {
   return (
-    <div>
+    <div className="min-h-[68.5vh]">
       
     </div>
   );
