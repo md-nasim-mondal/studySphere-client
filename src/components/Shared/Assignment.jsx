@@ -92,7 +92,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
     const assignmentMark = parseFloat(form.assignmentMark.value);
     const thumbnailPhoto = form.thumbnailPhoto.value;
     const description = form.description.value;
-    const jobData = {
+    const assignmentData = {
       assignment_title,
       deadline,
       difficultyLevel,
@@ -110,7 +110,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
     try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/assignment/${_id}`,
-        jobData
+        assignmentData
       );
       toast.success("Assignment Data Updated Successfully!");
       closeModal();
@@ -211,6 +211,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                             id='assignment_title'
                             name='assignment_title'
                             defaultValue={assignment_title}
+                            required
                             type='text'
                             className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
@@ -242,6 +243,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                             defaultValue={assignmentMark}
                             name='assignmentMark'
                             type='number'
+                            required
                             className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
@@ -255,6 +257,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                             defaultValue={thumbnailPhoto}
                             name='thumbnailPhoto'
                             type='url'
+                            required
                             className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           />
                         </div>
@@ -300,6 +303,7 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
                         <label htmlFor='description'>Description</label>
                         <textarea
                           defaultValue={description}
+                          required
                           className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                           name='description'
                           id='description'
