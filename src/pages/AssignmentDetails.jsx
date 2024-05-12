@@ -66,6 +66,7 @@ const AssignmentDetails = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
+    const pdfLink = form.pdfLink.value;
     const note = form.noteText.value;
     const status = "Pending";
     const assignmentId = _id;
@@ -78,9 +79,10 @@ const AssignmentDetails = () => {
       thumbnailPhoto,
       description,
       status,
+      pdfLink,
       note,
       assignmentCreator,
-      submittedUser: {
+      examineeUser: {
         email: user?.email,
         name: user?.displayName,
         photo: user?.photoURL,
@@ -203,10 +205,10 @@ const AssignmentDetails = () => {
                     <form onSubmit={handleFormSubmit}>
                       <div>
                         <div>
-                          <label htmlFor='thumbnailPhoto'>PDF/DOC Link</label>
+                          <label htmlFor='pdfLink'>PDF/DOC Link</label>
                           <input
-                            id='thumbnailPhoto'
-                            name='thumbnailPhoto'
+                            id='pdfLink'
+                            name='pdfLink'
                             type='url'
                             required
                             className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
