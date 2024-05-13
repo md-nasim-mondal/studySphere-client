@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet";
 const CreateAssignments = () => {
   const { user } = useAuth() || {};
   const navigate = useNavigate();
@@ -45,6 +46,9 @@ const CreateAssignments = () => {
   };
   return (
     <div className='flex justify-center items-center my-12'>
+    <Helmet>
+        <title>StudySphere || CreateAssignment</title>
+      </Helmet>
       <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
         <h2 className='text-xl md:text-4xl font-semibold text-gray-700 capitalize text-center my-12 '>
           Create A New Assignment

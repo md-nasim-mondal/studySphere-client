@@ -7,7 +7,7 @@ const Footer = () => {
         <aside>
           <img className="w-20 md:w-24 lg:w-28 xl:w-32" src={logo} alt="" />
           <p>
-            studySphere Ltd.
+            StudySphere Ltd.
             <br />
             Providing reliable tech since 2010
           </p>
@@ -56,7 +56,7 @@ const Footer = () => {
             </div>
           </nav>
           <aside>
-            <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
+            <p>Copyright © 2024 - All right reserved by StudySphere Ltd</p>
           </aside>
         </div>
       </footer>

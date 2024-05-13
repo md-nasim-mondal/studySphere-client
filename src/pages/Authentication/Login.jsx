@@ -5,6 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
+import { Helmet } from "react-helmet";
+import logo2 from "../../assets/logo/study.svg"
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,6 +96,14 @@ const Login = () => {
   };
   return (
     <div className='flex justify-center items-center my-12'>
+      <Helmet>
+          <link
+            rel="shortcut icon"
+            href={logo2}
+            type="image/svg+x-icon"
+          />
+        <title>StudySphere || Login</title>
+      </Helmet>
       <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-xl '>
         <div className='w-full px-6 py-8 md:px-8'>
           <div className='flex justify-center mx-auto'>

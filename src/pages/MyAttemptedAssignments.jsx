@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 const MyAttemptedAssignments = () => {
   const {user} = useAuth();
@@ -16,6 +17,9 @@ const MyAttemptedAssignments = () => {
   }, [setAttemptedAssignments, attemptedAssignments, user]);
   return (
     <div className="min-h-[68.5vh]">
+    <Helmet>
+        <title>StudySphere || MyAttemptedAssignment</title>
+      </Helmet>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
         <table className='divide-x divide-y divide-green-500 overflow-auto  border-2 border-green-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>

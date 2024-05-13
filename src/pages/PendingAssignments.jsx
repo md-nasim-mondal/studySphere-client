@@ -11,6 +11,7 @@ import {
 } from "@headlessui/react";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 const PendingAssignments = () => {
   const { user } = useAuth();
@@ -88,6 +89,9 @@ const PendingAssignments = () => {
 
   return (
     <div className='mx-auto'>
+    <Helmet>
+        <title>StudySphere || PendingAssignments</title>
+      </Helmet>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
         <table className='divide-x divide-y divide-gray-500 overflow-auto  border-2 border-gray-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>

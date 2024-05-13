@@ -1,6 +1,7 @@
 import Assignment from "../components/Shared/Assignment";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const Assignments = () => {
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -60,6 +61,9 @@ const Assignments = () => {
 
   return (
     <div>
+    <Helmet>
+        <title>StudySphere || Assignments</title>
+      </Helmet>
       <div className='container px-6 py-10 mx-auto flex flex-col justify-between'>
         <div>
           <div className='flex flex-col md:flex-row justify-center items-center gap-5 '>

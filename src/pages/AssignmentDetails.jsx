@@ -9,6 +9,8 @@ import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
+import { Helmet } from "react-helmet";
+import logo2 from "../assets/logo/study.svg"
 
 const AssignmentDetails = () => {
   const assignment = useLoaderData();
@@ -104,6 +106,14 @@ const AssignmentDetails = () => {
 
   return (
     <div>
+    <Helmet>
+          <link
+            rel="shortcut icon"
+            href={logo2}
+            type="image/svg+x-icon"
+          />
+        <title>StudySphere || AssignmentDetails</title>
+      </Helmet>
       <div className='hero min-h-[80vh] my-24 bg-base-200 py-12 md:py-20 lg:py-24 rounded-lg'>
         <div className='hero-content block'>
           <h3 className='text-2xl md:text-3xl lg:text-5xl font-bold md:text-center pb-12'>
