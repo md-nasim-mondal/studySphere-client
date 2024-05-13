@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 
 const Main = () => {
   return (
-    <div className="bg-gray-200">
+    <div>
     <Helmet>
           <link
             rel="shortcut icon"

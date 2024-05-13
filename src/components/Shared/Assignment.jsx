@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import toast from "react-hot-toast";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
@@ -8,6 +7,7 @@ import Swal from "sweetalert2";
 
 const Assignment = ({ assignment, assignments, setAssignments }) => {
   const { user } = useAuth() || {};
+  const navigate = useLocation();
   const {
     _id,
     assignment_title,
@@ -20,6 +20,10 @@ const Assignment = ({ assignment, assignments, setAssignments }) => {
   } = assignment || {};
 
   const handleDelete = async (id) => {
+    if(!user) {
+      navigate('/login')
+      return toast.error('Please Login First than Try Again!!')
+    }
     const verified = (await assignmentCreator?.email) === user?.email;
     if (!verified) {
       return toast.error(

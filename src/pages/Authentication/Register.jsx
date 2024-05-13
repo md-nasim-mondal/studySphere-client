@@ -85,21 +85,8 @@ const Register = () => {
 
   const handleGithubSignIn = async () => {
     try {
-      // 1. google sign In from firebase
       const result = await githubLogin();
       console.log(result.user);
-
-      //2. get token from server using email
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
       toast.success("SignIn Successful With Github");
       navigate(from, { replace: true });
     } catch (err) {
