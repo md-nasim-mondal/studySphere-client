@@ -9,13 +9,15 @@ const MyAttemptedAssignments = () => {
   const axiosSecure = useAxiosSecure();
   const [attemptedAssignments, setAttemptedAssignments] = useState([]);
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await axiosSecure(
-        `/submitted-assignments/${user?.email}`
-      );
-      setAttemptedAssignments(data);
-    };
-    getData();
+    if(user?.email){
+      const getData = async () => {
+        const { data } = await axiosSecure(
+          `/submitted-assignments/${user?.email}`
+        );
+        setAttemptedAssignments(data);
+      };
+      getData();
+    }
   }, [user, attemptedAssignments, axiosSecure]);
 
   if (attemptedAssignments.length <= 0) {
@@ -93,7 +95,12 @@ const MyAttemptedAssignments = () => {
                 </td>
 
                 <td className=' text-center py-4 px-3  border-r-2 border-green-500  text-sm whitespace-nowrap'>
-                  <span className=' bg-yellow-200 text-yellow-600 p-2 rounded-lg'>
+                  <span 
+                    className={` ${
+                      assignment.status === "Pending"
+                        ? "bg-yellow-200 text-yellow-600"
+                        : "bg-success text-success-content font-semibold"
+                    } p-2 rounded-lg`}>
                     {assignment?.status}
                   </span>
                 </td>

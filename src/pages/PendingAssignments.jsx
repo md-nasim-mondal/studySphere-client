@@ -88,7 +88,7 @@ const PendingAssignments = () => {
       toast.error(err.message);
     }
   };
- 
+
   if (pendingAssignments.length <= 0) {
     return (
       <div>
@@ -175,11 +175,7 @@ const PendingAssignments = () => {
                 </td>
                 <td className=' text-center py-4 px-3  border-r-2 border-gray-500  text-sm whitespace-nowrap'>
                   <span
-                    className={` ${
-                      assignment.status === "Pending"
-                        ? "bg-yellow-200 text-yellow-600"
-                        : "bg-success text-success-content font-semibold"
-                    } p-2 rounded-lg`}>
+                     className=' bg-yellow-200 text-yellow-600 p-2 rounded-lg'>
                     {assignment?.status}
                   </span>
                 </td>
@@ -233,8 +229,8 @@ const PendingAssignments = () => {
             <div className='fixed inset-0 bg-black/25' />
           </TransitionChild>
 
-          <div className='fixed inset-0 overflow-y-auto'>
-            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+          <div className='fixed inset-0 overflow-auto'>
+            <div className='flex min-h-full overflow-auto items-center justify-center p-4 text-center'>
               <TransitionChild
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -243,8 +239,8 @@ const PendingAssignments = () => {
                 leave='ease-in duration-200'
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'>
-                <DialogPanel className='w-full max-w-4xl transform overflow-y-auto rounded-2xl bg-base-200 p-6 text-left align-middle shadow-xl transition-all'>
-                  <div className='md:p-8 overflow-auto min-h-[80vh]'>
+                <DialogPanel className='w-full max-w-4xl transform overflow-auto rounded-2xl bg-base-200 p-6 text-left align-middle shadow-xl transition-all'>
+                  <div className='md:p-8 overflow-auto h-[80vh]'>
                     <div className='text-end'>
                       <button
                         onClick={closeModal}
@@ -253,8 +249,9 @@ const PendingAssignments = () => {
                       </button>
                     </div>
                     <div className={`${iframeOpen === false ? "hidden" : ""}`}>
+                      {/* https://drive.google.com/file/d/1X3qwPwlnyy44oQAckYeZAvMP6aOSo4d8/preview */}
                       <iframe
-                        src='https://drive.google.com/file/d/1X3qwPwlnyy44oQAckYeZAvMP6aOSo4d8/preview'
+                        src={markingAssignment?.pdfLink}
                         className='w-full min-h-[80vh]'
                         allow='autoplay'></iframe>
                     </div>
@@ -265,21 +262,14 @@ const PendingAssignments = () => {
                       <div>
                         <h3 className='text-3xl'>Pdf/Doc File Link Preview</h3>
                         <iframe
-                          src={`https://drive.google.com/file/d/1X3qwPwlnyy44oQAckYeZAvMP6aOSo4d8/view`}
+                          src={markingAssignment?.pdfLink}
                           className='w-full min-h-96 rounded-xl'></iframe>
+                          <p className="text-lg py-4 font-semibold">if Facing Problems to see the preview than <span className="text-blue-600"><a href={markingAssignment?.pdfLink}>Click Here...</a></span></p>
                       </div>
                       <div className='py-12'>
                         <h3 className='text-2xl font-semibold'>
                           Assignment Documents Which is Submitted by Examinee:{" "}
                         </h3>
-                        {/* <div className='pl-8'>
-                        <h4 className='text-2xl font-medium py-3'>
-                          Pdf/Doc File Link Preview
-                        </h4>
-                        <a href={markingAssignment?.pdfLink} target='_blank'>
-                          <iframe src={markingAssignment?.pdfLink}></iframe>
-                        </a>
-                      </div> */}
                         <div className='pl-8 text-lg'>
                           <p className='font-semibold py-3'>
                             <span>Pdf/Docs File Link: </span>
@@ -317,6 +307,7 @@ const PendingAssignments = () => {
                               id='mark'
                               name='mark'
                               type='number'
+                              required
                               placeholder='Give mark here'
                               className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                             />

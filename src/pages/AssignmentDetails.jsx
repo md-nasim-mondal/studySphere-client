@@ -40,13 +40,15 @@ const AssignmentDetails = () => {
   const [userSubmittedAssignments, setUserSubmittedAssignments] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await axiosSecure(
-        `/submitted-assignments/${user?.email}`
-      );
-      setUserSubmittedAssignments(data);
-    };
-    getData();
+    if(user?.email){
+      const getData = async () => {
+        const { data } = await axiosSecure(
+          `/submitted-assignments/${user?.email}`
+        );
+        setUserSubmittedAssignments(data);
+      };
+      getData();
+    }
   }, [axiosSecure, setUserSubmittedAssignments, user]);
 
   const closeModal = () => {
