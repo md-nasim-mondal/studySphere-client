@@ -5,7 +5,7 @@ import { RiQuestionnaireLine } from "react-icons/ri";
 const FAQ = () => {
   return (
     <div>
-      <div className='flex flex-col md:flex-row gap-[5%] items-center my-24 w-[94%] md:w-full mx-auto'>
+      <div className='flex flex-col md:flex-row gap-[5%] items-center py-20 w-[94%] md:w-full mx-auto bg-base-100 px-12 rounded-3xl my-12'>
         <div className="w-full">
           <h1 className='text-2xl md:text-4xl lg:text-6xl font-bold'>
             Frequently Asked Questions
@@ -54,7 +54,7 @@ const FAQ = () => {
         </div>
         <div>
           <div>
-            <h3 className="text-xl md:text-3xl font-semibold text-center py-4">Here is some common Question of our visitors</h3>
+            <h3 className="text-xl md:text-3xl font-semibold text-center py-4">Here is some common Question of our visitors.</h3>
           </div>
           <div className='join join-vertical w-full'>
             <div className='collapse collapse-plus join-item border border-base-300'>

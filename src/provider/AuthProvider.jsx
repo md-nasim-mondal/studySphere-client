@@ -24,6 +24,17 @@ const AuthProvider = ({ children }) => {
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
 
+    const [theme, setTheme] = useState(() => {
+        const localTheme = localStorage.getItem("theme");
+        return localTheme ? localTheme : "light";
+      });
+      useEffect(() => {
+        localStorage.setItem("theme", theme);
+    
+        document.querySelector("html").setAttribute("data-theme", theme);
+      }, [theme]);
+    
+
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -69,6 +80,8 @@ const AuthProvider = ({ children }) => {
 
 
     const authInfo = {
+        theme,
+        setTheme,
         user,
         setUser,
         loading,

@@ -3,10 +3,12 @@ import Navbar from "../components/Shared/Navbar";
 import Footer from "../components/Shared/Footer";
 import logo from "../assets/logo/study.svg"
 import { Helmet } from "react-helmet";
+import useAuth from "../hooks/useAuth";
 
 const Main = () => {
+  const {theme} = useAuth();
   return (
-    <div className="">
+    <div className={`${theme === 'light' ? 'bg-gray-300' : 'bg-[#1f2937]'}`}>
     <Helmet>
           <link
             rel="shortcut icon"

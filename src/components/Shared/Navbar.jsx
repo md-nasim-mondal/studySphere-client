@@ -3,19 +3,21 @@ import logo from "../../assets/logo/study.svg";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { IoClose, IoMenu } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, logOut } = useAuth() || {};
-  const [theme, setTheme] = useState(() => {
-    const localTheme = localStorage.getItem("theme");
-    return localTheme ? localTheme : "light";
-  });
-  useEffect(() => {
-    localStorage.setItem("theme", theme);
+  const { user, logOut, theme, setTheme } = useAuth() || {};
+  // const [theme, setTheme] = useState(() => {
+  //   const localTheme = localStorage.getItem("theme");
+  //   return localTheme ? localTheme : "light";
+  // });
+  // useEffect(() => {
+  //   localStorage.setItem("theme", theme);
 
-    document.querySelector("html").setAttribute("data-theme", theme);
-  }, [theme]);
+  //   document.querySelector("html").setAttribute("data-theme", theme);
+  // }, [theme]);
+
+  // 1f2937
 
   const handleToggle = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
