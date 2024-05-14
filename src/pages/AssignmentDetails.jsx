@@ -15,7 +15,7 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const AssignmentDetails = () => {
   const { id } = useParams();
-  const { user } = useAuth() || {};
+  const { user, loading } = useAuth() || {};
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [assignment, setAssignment] = useState({});
@@ -114,6 +114,14 @@ const AssignmentDetails = () => {
       toast.error(err.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className=' flex mt-16 justify-center'>
+        <span className='loading loading-infinity loading-lg'></span>
+      </div>
+    );
+  }
 
   return (
     <div>

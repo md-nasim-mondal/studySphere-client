@@ -88,6 +88,17 @@ const PendingAssignments = () => {
       toast.error(err.message);
     }
   };
+ 
+  if (pendingAssignments.length <= 0) {
+    return (
+      <div>
+        <h3 className='text-3xl font-bold my-32 text-center'>
+          {" "}
+          Currently have no Pending Data.{" "}
+        </h3>
+      </div>
+    );
+  }
 
   return (
     <div className='mx-auto'>

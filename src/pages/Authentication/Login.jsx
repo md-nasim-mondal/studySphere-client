@@ -6,12 +6,12 @@ import toast from "react-hot-toast";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { Helmet } from "react-helmet";
-import logo2 from "../../assets/logo/study.svg"
+import logo2 from "../../assets/logo/study.svg";
 import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn, googleLogin, user, githubLogin } = useAuth() || {};
+  const { signIn, googleLogin, user, githubLogin, loading } = useAuth() || {};
   const [showPassword, setShowPassword] = useState(false);
   const from = location.state || "/";
 
@@ -23,10 +23,9 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       const result = await googleLogin();
-      // console.log(result.user);
 
-      // 2. get token from server using email
-      const { data } = await axios.post(
+      // get token from server using email
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         {
           email: result?.user?.email,
@@ -34,8 +33,7 @@ const Login = () => {
         {
           withCredentials: true,
         }
-      )
-      console.log(data);
+      );
       toast.success("SignIn Successful With Google");
       navigate(from, { replace: true });
     } catch (err) {
@@ -57,7 +55,7 @@ const Login = () => {
         {
           withCredentials: true,
         }
-      )
+      );
       toast.success("SignIn Successful With Github");
       navigate(from, { replace: true });
     } catch (err) {
@@ -73,7 +71,6 @@ const Login = () => {
     try {
       //user login
       const result = await signIn(email, pass);
-      console.log(result.user);
       await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         {
@@ -82,22 +79,25 @@ const Login = () => {
         {
           withCredentials: true,
         }
-      )
+      );
       navigate(from, { replace: true });
       toast.success("SignIn Successful");
     } catch (err) {
-      console.log(err);
       toast.error(err?.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className=' flex mt-16 justify-center'>
+        <span className='loading loading-infinity loading-lg'></span>
+      </div>
+    );
+  }
   return (
     <div className='flex justify-center items-center my-12'>
       <Helmet>
-          <link
-            rel="shortcut icon"
-            href={logo2}
-            type="image/svg+x-icon"
-          />
+        <link rel='shortcut icon' href={logo2} type='image/svg+x-icon' />
         <title>StudySphere || Login</title>
       </Helmet>
       <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-xl '>

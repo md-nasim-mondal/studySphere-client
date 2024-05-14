@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Typewriter } from "react-simple-typewriter";
+import useAuth from "../hooks/useAuth";
 
 const Assignments = () => {
+  const { loading } = useAuth();
   const [itemsPerPage, setItemsPerPage] = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
@@ -59,6 +61,14 @@ const Assignments = () => {
     e.preventDefault();
     setSearch(searchText);
   };
+
+  if (loading) {
+    return (
+      <div className=' flex mt-16 justify-center'>
+        <span className='loading loading-infinity loading-lg'></span>
+      </div>
+    );
+  }
 
   return (
     <div>

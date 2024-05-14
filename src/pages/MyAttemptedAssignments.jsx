@@ -23,7 +23,7 @@ const MyAttemptedAssignments = () => {
       <div>
         <h3 className='text-3xl font-bold my-32 text-center'>
           {" "}
-          Currently You have no attempted Data.{" "}
+          Currently You have no attempted Assignment.{" "}
         </h3>
       </div>
     );

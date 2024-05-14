@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 import { Typewriter } from "react-simple-typewriter";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 const CreateAssignments = () => {
-  const { user } = useAuth() || {};
+  const { user, loading } = useAuth() || {};
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const [startDate, setStartDate] = useState(new Date());
@@ -36,16 +36,21 @@ const CreateAssignments = () => {
       },
     };
     try {
-      await axiosSecure.post(
-        `/assignments`,
-        assignmentData
-      );
+      await axiosSecure.post(`/assignments`, assignmentData);
       toast.success("Assignment Create Successfully!");
       navigate("/my-created-assignments");
     } catch (err) {
       toast.error(err.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className=' flex mt-16 justify-center'>
+        <span className='loading loading-infinity loading-lg'></span>
+      </div>
+    );
+  }
   return (
     <div>
       <Helmet>
@@ -64,7 +69,7 @@ const CreateAssignments = () => {
         />
       </div>
       <div className='flex justify-center items-center my-12'>
-        <section className=' p-2 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
+        <section className=' w-[94%] p-4 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
           <h2 className='text-xl md:text-4xl font-semibold text-gray-700 capitalize text-center my-12 '>
             Create A New Assignment
           </h2>

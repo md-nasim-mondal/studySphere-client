@@ -7,17 +7,6 @@ import { useState } from "react";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { user, logOut, theme, setTheme } = useAuth() || {};
-  // const [theme, setTheme] = useState(() => {
-  //   const localTheme = localStorage.getItem("theme");
-  //   return localTheme ? localTheme : "light";
-  // });
-  // useEffect(() => {
-  //   localStorage.setItem("theme", theme);
-
-  //   document.querySelector("html").setAttribute("data-theme", theme);
-  // }, [theme]);
-
-  // 1f2937
 
   const handleToggle = () => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
@@ -77,10 +66,22 @@ const Navbar = () => {
           </li>
         </>
       )}
+      <li>
+        <NavLink
+          onClick={() => setOpen(false)}
+          className={({ isActive }) =>
+            !isActive
+              ? "btn xl:text-lg font-semibold btn-outline bg-none border-none  rounded-lg text-[#1F2937] dark:text-[#007bff] mb-2  md:mr-1"
+              : "btn  btn-outline xl:text-lg border-x-0 border-t-0 text-[#23BE0A]  border-[#23BE0A] border-b-4 btn-ghost mb-2  md:mr-1"
+          }
+          to={"/contact"}>
+          Contact
+        </NavLink>
+      </li>
     </>
   );
   return (
-    <div className='navbar  bg-base-200 rounded-md md:rounded-2xl md:px-2 shadow-sm container lg:gap-16 justify-between mx-auto'>
+    <div className='navbar  bg-base-200 md:px-2 shadow-sm container lg:gap-16 justify-between mx-auto'>
       <div className='navbar-start'>
         <div className='dropdown'>
           <div

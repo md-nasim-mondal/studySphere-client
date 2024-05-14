@@ -12,8 +12,14 @@ import axios from "axios";
 const Register = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { googleLogin, githubLogin, setUser, createUser, updateUserProfile } =
-    useAuth() || {};
+  const {
+    googleLogin,
+    githubLogin,
+    setUser,
+    createUser,
+    updateUserProfile,
+    loading,
+  } = useAuth() || {};
   const from = location.state || "/";
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,7 +47,7 @@ const Register = () => {
       await updateUserProfile(name, photo);
       // Optimistic UI update
       setUser({ ...result?.user, photoURL: photo, displayName: name });
-       await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         {
           email: result?.user?.email,
@@ -49,7 +55,7 @@ const Register = () => {
         {
           withCredentials: true,
         }
-      )
+      );
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
@@ -100,6 +106,14 @@ const Register = () => {
       toast.error(err?.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className=' flex mt-16 justify-center'>
+        <span className='loading loading-infinity loading-lg'></span>
+      </div>
+    );
+  }
   return (
     <div className='flex justify-center items-center my-12 '>
       <Helmet>

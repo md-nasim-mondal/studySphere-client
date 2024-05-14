@@ -11,6 +11,7 @@ import AssignmentDetails from "../pages/AssignmentDetails";
 import PrivateRoute from "./PrivateRoute";
 import MyCreatedAssignments from "../pages/MyCreatedAssignments";
 import UpdateAssignment from "../pages/UpdateAssignment";
+import Contact from "../pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -36,9 +37,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/createAssignments",
-        element:<PrivateRoute>
-           <CreateAssignments />
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <CreateAssignments />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/pendingAssignments",
@@ -50,28 +53,41 @@ const router = createBrowserRouter([
       },
       {
         path: "/my-attempted-assignments",
-        element: <PrivateRoute>
-           <MyAttemptedAssignments />
-        </PrivateRoute> ,
+        element: (
+          <PrivateRoute>
+            <MyAttemptedAssignments />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-created-assignments",
-        element: <PrivateRoute>
-          <MyCreatedAssignments />
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <MyCreatedAssignments />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update/:id",
-        element: <PrivateRoute>
-          <UpdateAssignment />
-        </PrivateRoute>,
-        loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/assignment/${params.id}`)
+        element: (
+          <PrivateRoute>
+            <UpdateAssignment />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/assignment/${params.id}`),
       },
       {
         path: "/assignment/:id",
-        element: <PrivateRoute>
-          <AssignmentDetails />
-        </PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <AssignmentDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
