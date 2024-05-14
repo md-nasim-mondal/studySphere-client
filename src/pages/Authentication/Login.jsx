@@ -7,6 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa6";
 import { Helmet } from "react-helmet";
 import logo2 from "../../assets/logo/study.svg"
+import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,21 +22,20 @@ const Login = () => {
   }, [navigate, user]);
   const handleGoogleSignIn = async () => {
     try {
-      // 1. google sign In from firebase
       const result = await googleLogin();
-      console.log(result.user);
+      // console.log(result.user);
 
-      //2. get token from server using email
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
+      // 2. get token from server using email
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
+      console.log(data);
       toast.success("SignIn Successful With Google");
       navigate(from, { replace: true });
     } catch (err) {
@@ -45,21 +45,19 @@ const Login = () => {
   };
   const handleGithubSignIn = async () => {
     try {
-      // 1. google sign In from firebase
+      // github sign In from firebase
       const result = await githubLogin();
       console.log(result.user);
 
-      //2. get token from server using email
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       toast.success("SignIn Successful With Github");
       navigate(from, { replace: true });
     } catch (err) {
@@ -72,21 +70,19 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const pass = form.password.value;
-    // console.log({ email, pass });
     try {
       //user login
       const result = await signIn(email, pass);
       console.log(result.user);
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       navigate(from, { replace: true });
       toast.success("SignIn Successful");
     } catch (err) {

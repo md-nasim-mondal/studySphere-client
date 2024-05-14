@@ -12,6 +12,7 @@ import {
     updateProfile,
 } from "firebase/auth";
 import app from "./../firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
@@ -42,8 +43,11 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password);
     };
 
-    const logOut = () => {
+    const logOut = async() => {
         setLoading(true);
+        await axios.get(`${import.meta.env.VITE_API_URL}/logOut`, {
+            withCredentials: true,
+        })
         return signOut(auth);
     };
     const updateUserProfile = (name, photo) => {

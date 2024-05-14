@@ -6,7 +6,8 @@ import { FaGithub } from "react-icons/fa6";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet";
-import logo2 from "../../assets/logo/study.svg"
+import logo2 from "../../assets/logo/study.svg";
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -23,7 +24,6 @@ const Register = () => {
     const name = form.name.value;
     const photo = form.photo.value;
     const pass = form.password.value;
-    // console.log({ email, pass, name, photo });
 
     if (pass.length < 6) {
       return toast.error("Password length should be minimum 6 digit");
@@ -41,16 +41,15 @@ const Register = () => {
       await updateUserProfile(name, photo);
       // Optimistic UI update
       setUser({ ...result?.user, photoURL: photo, displayName: name });
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
+       await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
@@ -60,21 +59,19 @@ const Register = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      // 1. google sign In from firebase
+      //  google sign In from firebase
       const result = await googleLogin();
-      console.log(result.user);
 
-      //2. get token from server using email
-      // const { data } = await axios.post(
-      //   `${import.meta.env.VITE_API_URL}/jwt`,
-      //   {
-      //     email: result?.user?.email,
-      //   },
-      //   {
-      //     withCredentials: true,
-      //   }
-      // )
-      // console.log(data);
+      // get token from server using email
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("SignIn Successful With Google");
       navigate(from, { replace: true });
     } catch (err) {
@@ -86,7 +83,16 @@ const Register = () => {
   const handleGithubSignIn = async () => {
     try {
       const result = await githubLogin();
-      console.log(result.user);
+      // get token from server using email
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        {
+          email: result?.user?.email,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("SignIn Successful With Github");
       navigate(from, { replace: true });
     } catch (err) {
@@ -96,12 +102,8 @@ const Register = () => {
   };
   return (
     <div className='flex justify-center items-center my-12 '>
-    <Helmet>
-          <link
-            rel="shortcut icon"
-            href={logo2}
-            type="image/svg+x-icon"
-          />
+      <Helmet>
+        <link rel='shortcut icon' href={logo2} type='image/svg+x-icon' />
         <title>StudySphere || Register</title>
       </Helmet>
       <div className='flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg  lg:max-w-xl'>

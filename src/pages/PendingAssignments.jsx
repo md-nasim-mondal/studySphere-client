@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { FaMarker } from "react-icons/fa";
@@ -12,6 +11,8 @@ import {
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet";
+import { IoMdEye } from "react-icons/io";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const PendingAssignments = () => {
   const { user } = useAuth();
@@ -19,17 +20,18 @@ const PendingAssignments = () => {
   const [pendingAssignments, setPendingAssignments] = useState([]);
   const [markingAssignment, setMarkingAssignment] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [iframeOpen, setIframeOpen] = useState(false);
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/pending-assignments/Pending`
-      );
+      const { data } = await axiosSecure(`/pending-assignments/Pending`);
       setPendingAssignments(data);
     };
     getData();
-  }, [setPendingAssignments, pendingAssignments]);
+  }, [pendingAssignments, axiosSecure]);
 
   const closeModal = () => {
+    setIframeOpen(false);
     setIsOpen(false);
   };
 
@@ -38,11 +40,11 @@ const PendingAssignments = () => {
   };
 
   const handleMarking = async () => {
+    setIframeOpen(false);
     openModal();
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     const matched =
       (await user?.email) === markingAssignment?.examineeUser?.email;
     if (matched) {
@@ -56,10 +58,12 @@ const PendingAssignments = () => {
     const obtainedMark = parseFloat(form.mark.value);
     const status = "Completed";
     const assignmentMark = markingAssignment?.assignmentMark;
-    if(obtainedMark > assignmentMark) {
-      return toast.error('Obtained Mark cannot be bigger than Assignment Mark!! ')
-    }else if (obtainedMark < 0 ) {
-      return toast.error('Obtained mark cannot be minus number!!!')
+    if (obtainedMark > assignmentMark) {
+      return toast.error(
+        "Obtained Mark cannot be bigger than Assignment Mark!! "
+      );
+    } else if (obtainedMark < 0) {
+      return toast.error("Obtained mark cannot be minus number!!!");
     }
     const assignmentUpdateData = {
       feedback,
@@ -73,10 +77,8 @@ const PendingAssignments = () => {
     };
 
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/submitted-assignment/${
-          markingAssignment?._id
-        }`,
+      await axiosSecure.put(
+        `/submitted-assignment/${markingAssignment?._id}`,
         assignmentUpdateData
       );
       toast.success("Assignment Checked Successfully With Mark!!");
@@ -89,9 +91,12 @@ const PendingAssignments = () => {
 
   return (
     <div className='mx-auto'>
-    <Helmet>
+      <Helmet>
         <title>StudySphere || PendingAssignments</title>
       </Helmet>
+      <h3 className='text-3xl font-bold text-center pt-16'>
+        Total Number of Pending Assignments: {pendingAssignments.length}
+      </h3>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
         <table className='divide-x divide-y divide-gray-500 overflow-auto  border-2 border-gray-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>
@@ -158,7 +163,12 @@ const PendingAssignments = () => {
                   {assignment?.examineeUser?.name}
                 </td>
                 <td className=' text-center py-4 px-3  border-r-2 border-gray-500  text-sm whitespace-nowrap'>
-                  <span className=' bg-yellow-200 text-yellow-600 p-2 rounded-lg'>
+                  <span
+                    className={` ${
+                      assignment.status === "Pending"
+                        ? "bg-yellow-200 text-yellow-600"
+                        : "bg-success text-success-content font-semibold"
+                    } p-2 rounded-lg`}>
                     {assignment?.status}
                   </span>
                 </td>
@@ -184,10 +194,15 @@ const PendingAssignments = () => {
                   </div>
                 </td>
 
-                <td className="p-2">
-                  <iframe
-                    src={assignment?.pdfLink}
-                    className='rounded-lg'></iframe>
+                <td className='p-2 text-center'>
+                  <button
+                    onClick={() => {
+                      setIframeOpen(true);
+                      setIsOpen(true);
+                    }}
+                    className='btn'>
+                    <IoMdEye />
+                  </button>
                 </td>
               </tr>
             ))}
@@ -218,90 +233,104 @@ const PendingAssignments = () => {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'>
                 <DialogPanel className='w-full max-w-4xl transform overflow-y-auto rounded-2xl bg-base-200 p-6 text-left align-middle shadow-xl transition-all'>
-                  <div className='md:p-8 overflow-auto h-[80vh]'>
+                  <div className='md:p-8 overflow-auto min-h-[80vh]'>
                     <div className='text-end'>
                       <button
                         onClick={closeModal}
                         className='btn bg-red-500 text-black'>
-                        Cancel Marking
+                        X
                       </button>
                     </div>
-                    <h1 className='text-4xl  font-bold text-center py-12'>
-                      Please Check & Marking the Assignment.
-                    </h1>
-                    <div className='py-12'>
-                      <h3 className='text-2xl font-semibold'>
-                        Assignment Documents Which is Submitted by Examinee:{" "}
-                      </h3>
-                      <div className='pl-8'>
+                    <div className={`${iframeOpen === false ? "hidden" : ""}`}>
+                      <iframe
+                        src='https://drive.google.com/file/d/1X3qwPwlnyy44oQAckYeZAvMP6aOSo4d8/preview'
+                        className='w-full min-h-[80vh]'
+                        allow='autoplay'></iframe>
+                    </div>
+                    <div className={`${iframeOpen === false ? "" : "hidden"}`}>
+                      <h1 className='text-4xl  font-bold text-center py-12'>
+                        Please Check & Marking the Assignment.
+                      </h1>
+                      <div>
+                        <h3 className='text-3xl'>Pdf/Doc File Link Preview</h3>
+                        <iframe
+                          src={`https://drive.google.com/file/d/1X3qwPwlnyy44oQAckYeZAvMP6aOSo4d8/view`}
+                          className='w-full min-h-96 rounded-xl'></iframe>
+                      </div>
+                      <div className='py-12'>
+                        <h3 className='text-2xl font-semibold'>
+                          Assignment Documents Which is Submitted by Examinee:{" "}
+                        </h3>
+                        {/* <div className='pl-8'>
                         <h4 className='text-2xl font-medium py-3'>
                           Pdf/Doc File Link Preview
                         </h4>
                         <a href={markingAssignment?.pdfLink} target='_blank'>
                           <iframe src={markingAssignment?.pdfLink}></iframe>
                         </a>
-                      </div>
-                      <div className='pl-8 text-lg'>
-                        <p className='font-semibold py-3'>
-                          <span>Pdf/Docs File Link: </span>
-                          <a
-                            className='text-blue-400'
-                            href={markingAssignment?.pdfLink}
-                            target='_blank'>
-                            {markingAssignment?.pdfLink}
-                          </a>
-                        </p>
-                        <p className='font-semibold pb-3'>
-                          Note: {markingAssignment?.note}{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <form onSubmit={handleFormSubmit}>
-                      <div>
-                        <div>
-                          <label htmlFor='emailAddress'>
-                            Your Email Address
-                          </label>
-                          <input
-                            id='emailAddress'
-                            type='email'
-                            name='email'
-                            disabled
-                            defaultValue={user?.email}
-                            className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                          />
+                      </div> */}
+                        <div className='pl-8 text-lg'>
+                          <p className='font-semibold py-3'>
+                            <span>Pdf/Docs File Link: </span>
+                            <a
+                              className='text-blue-400'
+                              href={markingAssignment?.pdfLink}
+                              target='_blank'>
+                              {markingAssignment?.pdfLink}
+                            </a>
+                          </p>
+                          <p className='font-semibold pb-3'>
+                            Note: {markingAssignment?.note}{" "}
+                          </p>
                         </div>
+                      </div>
+                      <form onSubmit={handleFormSubmit}>
+                        <div>
+                          <div>
+                            <label htmlFor='emailAddress'>
+                              Your Email Address
+                            </label>
+                            <input
+                              id='emailAddress'
+                              type='email'
+                              name='email'
+                              disabled
+                              defaultValue={user?.email}
+                              className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                            />
+                          </div>
 
-                        <div>
-                          <label htmlFor='mark'>Give Mark</label>
-                          <input
-                            id='mark'
-                            name='mark'
-                            type='number'
-                            placeholder='Give mark here'
-                            className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                          />
+                          <div>
+                            <label htmlFor='mark'>Give Mark</label>
+                            <input
+                              id='mark'
+                              name='mark'
+                              type='number'
+                              placeholder='Give mark here'
+                              className='block w-full px-4 py-2 bg-white placeholder:text-black mt-2 text-gray-700  border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                            />
+                          </div>
                         </div>
-                      </div>
-                      <div className='flex flex-col gap-2 mt-4'>
-                        <label htmlFor='feedback'>Feedback</label>
-                        <textarea
-                          required
-                          placeholder='Give Your Feedback Here....'
-                          className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                          name='feedback'
-                          id='feedback'
-                          cols='30'
-                          rows='6'></textarea>
-                      </div>
-                      <div className='flex justify-end mt-6'>
-                        <button
-                          type='submit'
-                          className='px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
-                          Submit
-                        </button>
-                      </div>
-                    </form>
+                        <div className='flex flex-col gap-2 mt-4'>
+                          <label htmlFor='feedback'>Feedback</label>
+                          <textarea
+                            required
+                            placeholder='Give Your Feedback Here....'
+                            className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                            name='feedback'
+                            id='feedback'
+                            cols='30'
+                            rows='6'></textarea>
+                        </div>
+                        <div className='flex justify-end mt-6'>
+                          <button
+                            type='submit'
+                            className='px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </DialogPanel>
               </TransitionChild>

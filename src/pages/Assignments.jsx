@@ -2,6 +2,7 @@ import Assignment from "../components/Shared/Assignment";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import { Typewriter } from "react-simple-typewriter";
 
 const Assignments = () => {
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -61,9 +62,21 @@ const Assignments = () => {
 
   return (
     <div>
-    <Helmet>
+      <Helmet>
         <title>StudySphere || Assignments</title>
       </Helmet>
+      <div className='flex justify-center text-green-500 items-center my-12 text-[42px] '>
+        <Typewriter
+          words={["All ", "Assignment", "Is", "Presenting", "Here"]}
+          loop={true}
+          cursor
+          cursorStyle='~'
+          typeSpeed={170}
+          deleteSpeed={80}
+          delaySpeed={1200}
+          style={{ fontSize: "24px" }} // Increase the text size
+        />
+      </div>
       <div className='container px-6 py-10 mx-auto flex flex-col justify-between'>
         <div>
           <div className='flex flex-col md:flex-row justify-center items-center gap-5 '>

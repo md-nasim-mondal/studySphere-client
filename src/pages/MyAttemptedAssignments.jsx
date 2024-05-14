@@ -1,23 +1,37 @@
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { Helmet } from "react-helmet";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyAttemptedAssignments = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [attemptedAssignments, setAttemptedAssignments] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/submitted-assignments/${user?.email}`
+      const { data } = await axiosSecure(
+        `/submitted-assignments/${user?.email}`
       );
       setAttemptedAssignments(data);
     };
     getData();
-  }, [setAttemptedAssignments, attemptedAssignments, user]);
+  }, [user, attemptedAssignments, axiosSecure]);
+
+  if (attemptedAssignments.length <= 0) {
+    return (
+      <div>
+        <h3 className='text-3xl font-bold my-32 text-center'>
+          {" "}
+          Currently You have no attempted Data.{" "}
+        </h3>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-[68.5vh]">
-    <Helmet>
+    <div className='min-h-[68.5vh]'>
+      <Helmet>
         <title>StudySphere || MyAttemptedAssignment</title>
       </Helmet>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
@@ -45,7 +59,7 @@ const MyAttemptedAssignments = () => {
                   <span>Status</span>
                 </button>
               </th>
-              
+
               <th
                 scope='col'
                 className='px-4 py-3.5  border-r-2 border-green-500  text-sm font-normal text-left rtl:text-right text-base-content'>
@@ -77,7 +91,7 @@ const MyAttemptedAssignments = () => {
                 <td className='px-4 py-4  border-r-2 border-green-500  text-sm text-base-content  whitespace-nowrap'>
                   {assignment?.assignmentMark}
                 </td>
-                
+
                 <td className=' text-center py-4 px-3  border-r-2 border-green-500  text-sm whitespace-nowrap'>
                   <span className=' bg-yellow-200 text-yellow-600 p-2 rounded-lg'>
                     {assignment?.status}
@@ -85,16 +99,16 @@ const MyAttemptedAssignments = () => {
                 </td>
 
                 <td className='px-4 py-4 border-r-2 border-green-500  text-sm text-base-content  whitespace-nowrap'>
-                  {assignment?.obtainedMark || '-'}
+                  {assignment?.obtainedMark || "-"}
                 </td>
                 <td className='px-4 py-4 border-r-2 border-green-500  text-sm whitespace-nowrap'>
                   <div className='flex items-center justify-center gap-x-6'>
-                    {assignment?.Examiner?.name || '-'}
+                    {assignment?.Examiner?.name || "-"}
                   </div>
                 </td>
                 <td className='px-4 py-4  border-r-2 border-green-500  text-sm whitespace-nowrap'>
                   <div className='flex items-center justify-center gap-x-6'>
-                    {assignment?.feedback || '-'}
+                    {assignment?.feedback || "-"}
                   </div>
                 </td>
               </tr>

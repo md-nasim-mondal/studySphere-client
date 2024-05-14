@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
 import { Helmet } from "react-helmet";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const UpdateAssignment = () => {
   const { user } = useAuth() || {};
-  const navigate = useLocation();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
   const loadedAssignment = useLoaderData();
   const [assignment, setAssignment] = useState(loadedAssignment);
   useEffect(()=> {
@@ -51,8 +52,8 @@ const UpdateAssignment = () => {
     };
 
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/assignment/${_id}`,
+      await axiosSecure.put(
+        `/assignment/${_id}`,
         assignmentData
       );
       toast.success("Assignment Data Updated Successfully!");

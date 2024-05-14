@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Dialog,
   DialogPanel,
@@ -10,12 +10,22 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../hooks/useAuth";
 import { Helmet } from "react-helmet";
-import logo2 from "../assets/logo/study.svg"
+import logo2 from "../assets/logo/study.svg";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const AssignmentDetails = () => {
-  const assignment = useLoaderData();
+  const { id } = useParams();
   const { user } = useAuth() || {};
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const [assignment, setAssignment] = useState({});
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await axiosSecure(`/assignment/${id}`);
+      setAssignment(data);
+    };
+    getData();
+  }, [axiosSecure, id]);
   const {
     _id,
     assignment_title,
@@ -31,13 +41,13 @@ const AssignmentDetails = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/submitted-assignments/${user?.email}`
+      const { data } = await axiosSecure(
+        `/submitted-assignments/${user?.email}`
       );
       setUserSubmittedAssignments(data);
     };
     getData();
-  }, [setUserSubmittedAssignments, user]);
+  }, [axiosSecure, setUserSubmittedAssignments, user]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -48,15 +58,16 @@ const AssignmentDetails = () => {
   };
 
   const handleTakeAssignment = () => {
-    const matched = user?.email === assignmentCreator?.email;
+    // const matched = user?.email === assignmentCreator?.email;
     const result = userSubmittedAssignments.find(
       (assign) => assign.assignmentId === _id
     );
-    if (matched) {
-      return toast.error(
-        "You Created the Assignment, So You cannot take this assignment!!"
-      );
-    } else if (result) {
+    // if (matched) {
+    //   return toast.error(
+    //     "You Created the Assignment, So You cannot take this assignment!!"
+    //   );
+    // }
+    if (result) {
       return toast.error(
         "You have Already Attempted This Assignment. You cannot Take This Assignment!!"
       );
@@ -106,12 +117,8 @@ const AssignmentDetails = () => {
 
   return (
     <div>
-    <Helmet>
-          <link
-            rel="shortcut icon"
-            href={logo2}
-            type="image/svg+x-icon"
-          />
+      <Helmet>
+        <link rel='shortcut icon' href={logo2} type='image/svg+x-icon' />
         <title>StudySphere || AssignmentDetails</title>
       </Helmet>
       <div className='hero min-h-[80vh] my-24 bg-base-200 py-12 md:py-20 lg:py-24 rounded-lg'>
@@ -155,7 +162,7 @@ const AssignmentDetails = () => {
                 <div className='p-6 flex items-center justify-between flex-wrap'>
                   <div className='avatar'>
                     <div className='w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
-                      <img src={assignmentCreator.photo} />
+                      <img src={assignmentCreator?.photo} />
                     </div>
                   </div>
                   <div>
