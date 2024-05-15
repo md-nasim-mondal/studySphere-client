@@ -69,14 +69,14 @@ const CreateAssignments = () => {
         />
       </div>
       <div className='flex justify-center items-center my-12'>
-        <section className=' w-[94%] p-4 md:p-6 mx-auto bg-white rounded-md shadow-md md:w-[800px] '>
-          <h2 className='text-xl md:text-4xl font-semibold text-gray-700 capitalize text-center my-12 '>
+        <section className=' w-[94%] p-4 md:p-6 mx-auto bg-base-100 rounded-md shadow-md md:w-[800px] '>
+          <h2 className='text-xl md:text-4xl font-semibold text-base-content capitalize text-center my-12 '>
             Create A New Assignment
           </h2>
           <form onSubmit={handleFormSubmit}>
             <div className='grid grid-cols-1 gap-6 mt-4 md:grid-cols-2'>
               <div>
-                <label className='text-gray-700 ' htmlFor='assignment_title'>
+                <label className='text-base-content ' htmlFor='assignment_title'>
                   Assignment Title
                 </label>
                 <input
@@ -89,7 +89,7 @@ const CreateAssignments = () => {
               </div>
 
               <div className='flex flex-col gap-2 '>
-                <label className='text-gray-700 ' htmlFor='difficultyLevel'>
+                <label className='text-base-content ' htmlFor='difficultyLevel'>
                   Assignment Difficulty Level
                 </label>
                 <select
@@ -102,7 +102,7 @@ const CreateAssignments = () => {
                 </select>
               </div>
               <div>
-                <label className='text-gray-700 ' htmlFor='assignmentMark'>
+                <label className='text-base-content ' htmlFor='assignmentMark'>
                   Assignment Mark
                 </label>
                 <input
@@ -115,7 +115,7 @@ const CreateAssignments = () => {
               </div>
 
               <div>
-                <label className='text-gray-700 ' htmlFor='thumbnailPhoto'>
+                <label className='text-base-content ' htmlFor='thumbnailPhoto'>
                   Thumbnail Image URL
                 </label>
                 <input
@@ -139,7 +139,7 @@ const CreateAssignments = () => {
               </div>
 
               <div>
-                <label className='text-gray-700 ' htmlFor='emailAddress'>
+                <label className='text-base-content ' htmlFor='emailAddress'>
                   Email Address
                 </label>
                 <input
@@ -153,7 +153,7 @@ const CreateAssignments = () => {
               </div>
             </div>
             <div className='flex flex-col gap-2 mt-4'>
-              <label className='text-gray-700 ' htmlFor='description'>
+              <label className='text-base-content ' htmlFor='description'>
                 Description
               </label>
               <textarea
