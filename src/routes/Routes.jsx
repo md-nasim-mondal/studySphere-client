@@ -12,11 +12,13 @@ import PrivateRoute from "./PrivateRoute";
 import MyCreatedAssignments from "../pages/MyCreatedAssignments";
 import UpdateAssignment from "../pages/UpdateAssignment";
 import Contact from "../pages/Contact";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         index: true,

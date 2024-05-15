@@ -75,7 +75,7 @@ const Assignments = () => {
       <Helmet>
         <title>StudySphere || Assignments</title>
       </Helmet>
-      <div className='flex justify-center text-green-500 items-center my-12 text-[42px] '>
+      <div className='flex justify-center text-green-500 items-center mt-12 text-[42px]  '>
         <Typewriter
           words={["All ", "Assignment", "Is", "Presenting", "Here"]}
           loop={true}
@@ -88,8 +88,8 @@ const Assignments = () => {
         />
       </div>
       <div className='container px-6 py-10 mx-auto flex flex-col justify-between'>
-        <div>
-          <div className='flex flex-col md:flex-row justify-center items-center gap-5 '>
+        <div className='mb-12 md:mb-20'>
+          <div className='flex flex-col md:flex-row justify-center items-center gap-5 md:w-2/3 mx-auto bg-base-300 py-4 rounded-lg my-12'>
             <div>
               <select
                 onChange={(e) => {
@@ -143,7 +143,7 @@ const Assignments = () => {
               Reset
             </button>
           </div>
-          <div className='grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3 gap-6 py-12 md:py-20'>
+          <div className='grid grid-cols-1 md:grid-cols-2 px-4 md:px-8 lg:grid-cols-3 gap-6 py-12 md:py-20 bg-base-200 rounded-2xl'>
             {assignments?.map((assignment) => (
               <Assignment
                 key={assignment._id}

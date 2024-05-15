@@ -8,7 +8,7 @@ const Feature = () => {
       <section
         className={`${
           theme === "light" ? "bg-white" : "bg-gray-900"
-        } rounded-2xl`}>
+        } rounded-2xl my-12 `}>
         <div className='container px-6 py-10 mx-auto'>
           <h1
             className={`text-2xl font-semibold text-center ${
