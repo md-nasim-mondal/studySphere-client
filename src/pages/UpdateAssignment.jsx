@@ -63,11 +63,11 @@ const UpdateAssignment = () => {
     }
   };
   return (
-    <div>
+    <div className="my-20">
     <Helmet>
         <title>StudySphere || UpdateAssignmentDetails</title>
       </Helmet>
-    <div className="bg-base-200 px-12">
+    <div className="bg-base-200 p-12 rounded-2xl">
 
       <h1 className='text-4xl  font-bold text-center py-12'>
         Update Assignment
