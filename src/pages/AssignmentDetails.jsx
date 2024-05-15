@@ -93,6 +93,7 @@ const AssignmentDetails = () => {
       assignmentMark,
       thumbnailPhoto,
       description,
+      assignmentTakeCount: 0,
       status,
       pdfLink,
       note,
@@ -165,6 +166,12 @@ const AssignmentDetails = () => {
                   </span>
                 </p>
               </div>
+              <p className='text-lg font-semibold'>
+                  Assignment Take:{" "}
+                  <span className='px-2 text-gray-800 uppercase  rounded-full '>
+                    {assignment?.assignmentTakeCount || 0}
+                  </span>{" "}
+                </p>
               <div className='py-4'>
                 <h3 className='text-2xl md:text-4xl font-semibold'>
                   Assignment Creator Information:

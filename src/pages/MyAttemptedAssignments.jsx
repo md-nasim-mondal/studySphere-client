@@ -37,6 +37,10 @@ const MyAttemptedAssignments = () => {
         <title>StudySphere || MyAttemptedAssignment</title>
       </Helmet>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
+      <h3 className='text-3xl font-bold my-12 text-center'>
+          {" "}
+          Here is Your Attempted Assignments List.{" "}
+        </h3>
         <table className='divide-x divide-y divide-green-500 overflow-auto  border-2 border-green-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>
             <tr>

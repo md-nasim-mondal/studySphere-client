@@ -13,6 +13,7 @@ import MyCreatedAssignments from "../pages/MyCreatedAssignments";
 import UpdateAssignment from "../pages/UpdateAssignment";
 import Contact from "../pages/Contact";
 import ErrorPage from "../pages/ErrorPage";
+import MyCheckedAssignments from "../pages/MyCheckedAssignments";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/assignment/${params.id}`),
+      },
+      {
+        path: "/my-checked-assignments",
+        element: (
+          <PrivateRoute>
+            <MyCheckedAssignments />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/assignment/:id",

@@ -214,6 +214,18 @@ const Navbar = () => {
                   My Created Assignments
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    !isActive
+                      ? "border text-center xl:text-lg font-semibold btn-outline btn-warning  rounded-lg text-black  mb-2  md:mr-1"
+                      : "border text-center btn-outline xl:text-lg border-x-0 border-t-0 text-[#23BE0A]  border-[#23BE0A] border-b-4 btn-ghost mb-2  md:mr-1"
+                  }
+                  to='/my-checked-assignments'>
+                  My Checked Assignments
+                </NavLink>
+              </li>
               <li className='mt-2'>
                 <button
                   onClick={logOut}

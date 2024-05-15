@@ -61,6 +61,10 @@ const MyCreatedAssignments = () => {
         <title>StudySphere || MyCreatedAssignments</title>
       </Helmet>
       <div className='min-h-[68.5vh] overflow-auto py-24'>
+      <h3 className='text-3xl font-bold my-12 text-center'>
+          {" "}
+          Here is Your Created Assignments List.{" "}
+        </h3>
         <table className='divide-x divide-y divide-blue-500 overflow-auto  border-2 border-blue-500 rounded-2xl mx-auto'>
           <thead className='bg-base-300'>
             <tr>
@@ -111,7 +115,7 @@ const MyCreatedAssignments = () => {
                 </td>
 
                 <td className='px-4 py-4 border-r-2 border-blue-500  text-sm text-base-content  whitespace-nowrap'>
-                  {assignment?.assignmentTake || 0}
+                  {assignment?.assignmentTakeCount || 0}
                 </td>
                 <td className='px-4 py-4 border-r-2 border-blue-500  text-sm whitespace-nowrap'>
                   <div className='flex items-center justify-center gap-x-6'>
