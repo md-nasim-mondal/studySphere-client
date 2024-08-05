@@ -47,9 +47,7 @@ We welcome contributions from the community to enhance StudySphere further. Whet
 1. *Clone the Repository*
 
 2. *Install Dependencies*
-- Navigate to the project directory and install frontend dependencies:
-  
-  npm install
+-pm install
   
 - For backend dependencies, navigate to the backend directory and run:
   
@@ -83,6 +81,17 @@ We welcome contributions from the community to enhance StudySphere further. Whet
   
 
 6. *Start the Frontend Server*
+
+Follow these steps to clone, configure, and run the project locally.
+localhost
+ Navigate to the project directory and install frontend dependencies:
+  
+  npm install
+  
+- For backend dependencies, navigate to the backend directory and run:
+  
+  npm install
+  
 
 Follow these steps to clone, configure, and run the project locally.
 localhost
